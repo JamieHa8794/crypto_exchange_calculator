@@ -1,10 +1,37 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useExchangeRates } from '@/composables/useExchangeRates'
+import { isPositiveFiniteNumber } from '@/utils/number'
 
 const { rates, isLoading, error } = useExchangeRates()
 
 const usdHoldings = ref<number | ''>('')
+
+const allocation = computed(() => {
+  const amount = usdHoldings.value
+  const currentRates = rates.value
+
+  if (!currentRates) {
+    return null
+  }
+  if (
+    !isPositiveFiniteNumber(amount) ||
+    !isPositiveFiniteNumber(currentRates.BTC) ||
+    !isPositiveFiniteNumber(currentRates.ETH)
+  ) {
+    return null
+  }
+
+  const btcUsdAmount = amount * 0.7
+  const ethUsdAmount = amount * 0.3
+
+  return {
+    btcUsdAmount,
+    ethUsdAmount,
+    btcQuantity: btcUsdAmount * currentRates.BTC,
+    ethQuantity: ethUsdAmount * currentRates.ETH,
+  }
+})
 </script>
 
 <template>
@@ -31,5 +58,12 @@ const usdHoldings = ref<number | ''>('')
     />
 
     <p>Current value: {{ usdHoldings }}</p>
+  </div>
+  <div v-if="allocation">
+    <p>BTC USD allocation: {{ allocation.btcUsdAmount }}</p>
+    <p>BTC quantity: {{ allocation.btcQuantity }}</p>
+
+    <p>ETH USD allocation: {{ allocation.ethUsdAmount }}</p>
+    <p>ETH quantity: {{ allocation.ethQuantity }}</p>
   </div>
 </template>
