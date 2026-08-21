@@ -1,11 +1,18 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useExchangeRates } from '@/composables/useExchangeRates'
+
+const { rates, isLoading, error } = useExchangeRates()
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
-</template>
+  <main>
+    <p v-if="isLoading">Loading exchange rates...</p>
 
-<style scoped></style>
+    <p v-else-if="error">{{ error }}</p>
+
+    <div v-else-if="rates">
+      <p>BTC: {{ rates.BTC }}</p>
+      <p>ETH: {{ rates.ETH }}</p>
+    </div>
+  </main>
+</template>
