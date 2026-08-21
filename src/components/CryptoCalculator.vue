@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import CryptoResultCard from '@/components/CryptoResultCard.vue'
+
 import { useExchangeRates } from '@/composables/useExchangeRates'
 import { formatCrypto, formatUsd, isPositiveFiniteNumber } from '@/utils'
 
@@ -63,24 +65,24 @@ const allocation = computed(() => {
     <h2 id="estimated-purchases-heading">Estimated purchases</h2>
     <p>Estimates based on current Coinbase exchange rates.</p>
 
-    <article>
-      <h3>Bitcoin (BTC)</h3>
-      <p>Allocation: 70%</p>
-      <p>USD allocated: {{ formatUsd(allocation.btcUsdAmount) }}</p>
-      <p>
-        Estimated quantity:
-        {{ formatCrypto(allocation.btcQuantity) }} BTC
-      </p>
-    </article>
+    <div class="crypto-result-cards">
+      <CryptoResultCard
+        asset-name="Bitcoin"
+        symbol="BTC"
+        v-bind:allocation-percentage="70"
+        v-bind:formatted-usd-allocation="formatUsd(allocation.btcUsdAmount)"
+        v-bind:formatted-crypto-quantity="formatCrypto(allocation.btcQuantity)"
+        variant="btc"
+      />
 
-    <article>
-      <h3>Ethereum (ETH)</h3>
-      <p>Allocation: 30%</p>
-      <p>USD allocated: {{ formatUsd(allocation.ethUsdAmount) }}</p>
-      <p>
-        Estimated quantity:
-        {{ formatCrypto(allocation.ethQuantity) }} ETH
-      </p>
-    </article>
+      <CryptoResultCard
+        asset-name="Ethereum"
+        symbol="ETH"
+        v-bind:allocation-percentage="30"
+        v-bind:formatted-usd-allocation="formatUsd(allocation.ethUsdAmount)"
+        v-bind:formatted-crypto-quantity="formatCrypto(allocation.ethQuantity)"
+        variant="eth"
+      />
+    </div>
   </section>
 </template>
