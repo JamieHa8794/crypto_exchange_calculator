@@ -5,6 +5,8 @@ import CryptoResultCard from '@/components/CryptoResultCard.vue'
 import { useExchangeRates } from '@/composables/useExchangeRates'
 import { formatCrypto, formatUsd, isPositiveFiniteNumber } from '@/utils'
 
+import '@/styles/CryptoCalculator.css'
+
 const { rates, isLoading, error } = useExchangeRates()
 
 const usdHoldings = ref<number | ''>('')
@@ -37,52 +39,83 @@ const allocation = computed(() => {
 </script>
 
 <template>
-  <div>
-    <p v-if="isLoading">Loading exchange rates...</p>
+  <div class="calculator-card">
+    <div class="calculator-header">
+      <p class="calculator-eyebrow">CRYPTO ALLOCATION</p>
 
-    <p v-else-if="error">{{ error }}</p>
+      <h1 class="calculator-title">Split your crypto allocation</h1>
 
-    <div v-else-if="rates">
-      <p>BTC: {{ rates.BTC }}</p>
-      <p>ETH: {{ rates.ETH }}</p>
+      <p class="calculator-description">
+        Enter the USD amount you want to divide between Bitcoin and Ethereum.
+      </p>
     </div>
-  </div>
-  <div>
-    <label for="usd-holdings">USD available to invest</label>
 
-    <input
-      id="usd-holdings"
-      v-model="usdHoldings"
-      type="number"
-      min="0"
-      step="0.01"
-      placeholder="0.00"
-    />
+    <div>
+      <p v-if="isLoading">Loading exchange rates...</p>
 
-    <p>Current value: {{ usdHoldings }}</p>
-  </div>
-  <section v-if="allocation" aria-labelledby="estimated-purchases-heading">
-    <h2 id="estimated-purchases-heading">Estimated purchases</h2>
-    <p>Estimates based on current Coinbase exchange rates.</p>
+      <p v-else-if="error">{{ error }}</p>
 
-    <div class="crypto-result-cards">
-      <CryptoResultCard
-        asset-name="Bitcoin"
-        symbol="BTC"
-        v-bind:allocation-percentage="70"
-        v-bind:formatted-usd-allocation="formatUsd(allocation.btcUsdAmount)"
-        v-bind:formatted-crypto-quantity="formatCrypto(allocation.btcQuantity)"
-        variant="btc"
-      />
-
-      <CryptoResultCard
-        asset-name="Ethereum"
-        symbol="ETH"
-        v-bind:allocation-percentage="30"
-        v-bind:formatted-usd-allocation="formatUsd(allocation.ethUsdAmount)"
-        v-bind:formatted-crypto-quantity="formatCrypto(allocation.ethQuantity)"
-        variant="eth"
-      />
+      <div v-else-if="rates">
+        <p>BTC: {{ rates.BTC }}</p>
+        <p>ETH: {{ rates.ETH }}</p>
+      </div>
     </div>
-  </section>
+
+    <div class="holdings-section">
+      <div class="holdings-field">
+        <label class="holdings-label" for="usd-holdings"> USD available to invest </label>
+
+        <div class="holdings-input-wrapper">
+          <input
+            id="usd-holdings"
+            class="holdings-input"
+            v-model="usdHoldings"
+            type="number"
+            min="0"
+            step="0.01"
+            placeholder="0.00"
+          />
+
+          <span class="holdings-currency" aria-hidden="true"> USD </span>
+        </div>
+      </div>
+
+      <div class="allocation-summary">
+        <div class="allocation-heading">
+          <p class="allocation-label">Allocation</p>
+          <p class="allocation-percentages">70% BTC · 30% ETH</p>
+        </div>
+
+        <div class="allocation-rail" aria-hidden="true">
+          <div class="allocation-rail-btc"></div>
+          <div class="allocation-rail-eth"></div>
+        </div>
+      </div>
+    </div>
+
+    <section v-if="allocation" aria-labelledby="estimated-purchases-heading">
+      <h2 id="estimated-purchases-heading">Estimated purchases</h2>
+      <p>Estimates based on current Coinbase exchange rates.</p>
+
+      <div class="crypto-result-cards">
+        <CryptoResultCard
+          asset-name="Bitcoin"
+          symbol="BTC"
+          v-bind:allocation-percentage="70"
+          v-bind:formatted-usd-allocation="formatUsd(allocation.btcUsdAmount)"
+          v-bind:formatted-crypto-quantity="formatCrypto(allocation.btcQuantity)"
+          variant="btc"
+        />
+
+        <CryptoResultCard
+          asset-name="Ethereum"
+          symbol="ETH"
+          v-bind:allocation-percentage="30"
+          v-bind:formatted-usd-allocation="formatUsd(allocation.ethUsdAmount)"
+          v-bind:formatted-crypto-quantity="formatCrypto(allocation.ethQuantity)"
+          variant="eth"
+        />
+      </div>
+    </section>
+  </div>
 </template>
