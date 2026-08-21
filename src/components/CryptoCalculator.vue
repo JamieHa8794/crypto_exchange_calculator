@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useExchangeRates } from '@/composables/useExchangeRates'
-import { isPositiveFiniteNumber } from '@/utils/number'
+import { formatCrypto, formatUsd, isPositiveFiniteNumber } from '@/utils'
 
 const { rates, isLoading, error } = useExchangeRates()
 
@@ -59,11 +59,28 @@ const allocation = computed(() => {
 
     <p>Current value: {{ usdHoldings }}</p>
   </div>
-  <div v-if="allocation">
-    <p>BTC USD allocation: {{ allocation.btcUsdAmount }}</p>
-    <p>BTC quantity: {{ allocation.btcQuantity }}</p>
+  <section v-if="allocation" aria-labelledby="estimated-purchases-heading">
+    <h2 id="estimated-purchases-heading">Estimated purchases</h2>
+    <p>Estimates based on current Coinbase exchange rates.</p>
 
-    <p>ETH USD allocation: {{ allocation.ethUsdAmount }}</p>
-    <p>ETH quantity: {{ allocation.ethQuantity }}</p>
-  </div>
+    <article>
+      <h3>Bitcoin (BTC)</h3>
+      <p>Allocation: 70%</p>
+      <p>USD allocated: {{ formatUsd(allocation.btcUsdAmount) }}</p>
+      <p>
+        Estimated quantity:
+        {{ formatCrypto(allocation.btcQuantity) }} BTC
+      </p>
+    </article>
+
+    <article>
+      <h3>Ethereum (ETH)</h3>
+      <p>Allocation: 30%</p>
+      <p>USD allocated: {{ formatUsd(allocation.ethUsdAmount) }}</p>
+      <p>
+        Estimated quantity:
+        {{ formatCrypto(allocation.ethQuantity) }} ETH
+      </p>
+    </article>
+  </section>
 </template>
