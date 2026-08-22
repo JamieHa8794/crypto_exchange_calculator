@@ -7,7 +7,7 @@ import { formatCrypto, formatUsd, isPositiveFiniteNumber, parseUsdInput } from '
 
 import '@/styles/CryptoCalculator.css'
 
-const { rates, isLoading, error } = useExchangeRates()
+const { rates, isLoading, error, retryExchangeRates } = useExchangeRates()
 
 const usdHoldings = ref('')
 
@@ -144,8 +144,13 @@ const allocation = computed(() => {
         <p class="calculator-state-title">Unable to load exchange rates</p>
 
         <p class="calculator-state-message">
-          Current Bitcoin and Ethereum estimates are unavailable. Please try again later.
+          Current Bitcoin and Ethereum estimates are unavailable. Check your connection and try
+          again.
         </p>
+
+        <button class="calculator-state-retry" type="button" v-on:click="retryExchangeRates">
+          Retry exchange rates
+        </button>
       </div>
     </section>
 

@@ -272,6 +272,45 @@
   overflow-wrap: break-word;
 }
 
+.calculator-state--error {
+  align-items: flex-start;
+  background-color: var(--color-error-surface);
+  border-color: var(--color-error-border);
+}
+
+.calculator-state--error .calculator-state-icon {
+  margin-top: var(--space-1);
+  background-color: var(--color-error);
+  color: var(--color-surface);
+}
+
+.calculator-state--error .calculator-state-title {
+  color: var(--color-error-text);
+}
+
+.calculator-state-retry {
+  margin-top: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--color-primary);
+  border: var(--border-width-default) solid var(--color-primary);
+  border-radius: var(--radius-md);
+  color: var(--color-text-on-accent);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-body);
+  cursor: pointer;
+  transition: var(--transition-control);
+}
+
+.calculator-state-retry:hover {
+  opacity: 0.9;
+}
+
+.calculator-state-retry:focus-visible {
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+
 /* Loading state */
 
 .calculator-state-spinner {

@@ -8,19 +8,25 @@ export function useExchangeRates() {
   const isLoading = ref(true)
   const error = ref<string | null>(null)
 
-  async function loadExchangeRates() {
+  let requestInProgress = false
+
+  async function loadExchangeRates(): Promise<void> {
+    if (requestInProgress) {
+      return
+    }
+
+    requestInProgress = true
     isLoading.value = true
     error.value = null
+    rates.value = null
 
     try {
       rates.value = await fetchExchangeRates()
-      console.log('Coinbase exchange rates:', rates.value)
-    } catch (caughtError) {
-      rates.value = null
-      error.value =
-        caughtError instanceof Error ? caughtError.message : 'Unable to load exchange rates'
+    } catch {
+      error.value = 'Unable to load exchange rates. Please try again.'
     } finally {
       isLoading.value = false
+      requestInProgress = false
     }
   }
 
@@ -30,5 +36,6 @@ export function useExchangeRates() {
     rates,
     isLoading,
     error,
+    retryExchangeRates: loadExchangeRates,
   }
 }
