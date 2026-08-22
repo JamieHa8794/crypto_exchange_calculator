@@ -1,6 +1,7 @@
 /* Main card */
 .calculator-card {
   width: 100%;
+  min-width: 0;
   margin-left: auto;
   margin-right: auto;
   padding: var(--space-14);
@@ -44,6 +45,7 @@
 /* Holdings input */
 .holdings-section {
   display: flex;
+  min-width: 0;
   flex-direction: column;
   gap: var(--space-5);
 }
@@ -63,10 +65,12 @@
 
 .holdings-input-wrapper {
   position: relative;
+  min-width: 0;
 }
 
 .holdings-input {
   width: 100%;
+  min-width: 0;
   height: var(--space-16);
   padding: 0 var(--space-16) 0 var(--space-4);
   appearance: textfield;
@@ -118,9 +122,10 @@
 
 .allocation-heading {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-4);
+  gap: var(--space-2) var(--space-4);
 }
 
 .allocation-label,
@@ -138,7 +143,9 @@
 }
 
 .allocation-percentages {
+  margin-left: auto;
   color: var(--color-text-secondary);
+  white-space: nowrap;
 }
 
 .allocation-rail {
@@ -249,5 +256,56 @@
 @media (prefers-reduced-motion: reduce) {
   .calculator-state-spinner {
     animation: none;
+  }
+}
+
+/* Stack cards before their two-column content becomes cramped */
+
+@media (max-width: 960px) {
+  .crypto-result-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Tablet */
+
+@media (max-width: 768px) {
+  .calculator-card {
+    padding: var(--space-10);
+  }
+
+  .calculator-header {
+    margin-bottom: var(--space-8);
+  }
+
+  .calculator-title {
+    font-size: var(--font-size-2xl);
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+  .calculator-card {
+    padding: var(--space-6);
+    border-radius: var(--radius-2xl);
+  }
+
+  .calculator-header {
+    margin-bottom: var(--space-6);
+  }
+
+  .calculator-title {
+    font-size: var(--font-size-xl);
+  }
+
+  .holdings-section {
+    gap: var(--space-4);
+  }
+
+  .holdings-input {
+    height: var(--space-14);
+    padding-right: var(--space-14);
+    font-size: var(--font-size-lg);
   }
 }
