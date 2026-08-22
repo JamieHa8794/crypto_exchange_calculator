@@ -37,7 +37,7 @@ defineProps<{
     <div class="crypto-result-card-divider" aria-hidden="true"></div>
 
     <div class="crypto-result-card-values">
-      <div>
+      <div class="crypto-result-card-detail">
         <p class="crypto-result-card-label">Allocated</p>
 
         <p class="crypto-result-card-usd">
@@ -45,7 +45,7 @@ defineProps<{
         </p>
       </div>
 
-      <div>
+      <div class="crypto-result-card-detail">
         <p class="crypto-result-card-label">Estimated quantity</p>
 
         <p class="crypto-result-card-quantity">≈ {{ formattedCryptoQuantity }} {{ symbol }}</p>

@@ -75,6 +75,10 @@
   gap: var(--space-8);
 }
 
+.crypto-result-card-detail {
+  min-width: 0;
+}
+
 .crypto-result-card-label {
   margin: 0;
   color: var(--color-text-secondary);
@@ -98,6 +102,7 @@
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-body);
+  white-space: nowrap;
 }
 
 /* Bitcoin variant */
@@ -130,4 +135,10 @@
 
 .crypto-result-card--eth .crypto-result-card-badge {
   background-color: var(--color-secondary);
+}
+
+@media (max-width: 1100px) {
+  .crypto-result-card-values {
+    grid-template-columns: 1fr;
+  }
 }
