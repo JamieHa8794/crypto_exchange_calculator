@@ -178,3 +178,76 @@
   line-height: var(--line-height-body);
   text-align: center;
 }
+
+/* Supporting states */
+
+.calculator-state {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  min-width: 0;
+  margin-top: var(--space-8);
+  padding: var(--space-5);
+  background-color: var(--color-surface);
+  border: var(--border-width-default) solid var(--color-border);
+  border-radius: var(--radius-2xl);
+}
+
+.calculator-state > div {
+  min-width: 0;
+}
+
+.calculator-state-title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-body);
+}
+
+.calculator-state-message {
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-body);
+  overflow-wrap: break-word;
+}
+
+/* Loading state */
+
+.calculator-state-spinner {
+  flex-shrink: 0;
+  width: var(--space-8);
+  height: var(--space-8);
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: var(--radius-full);
+  animation: calculator-state-spin 800ms linear infinite;
+}
+
+@keyframes calculator-state-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error state */
+
+.calculator-state-icon {
+  display: grid;
+  flex-shrink: 0;
+  width: var(--space-8);
+  height: var(--space-8);
+  place-items: center;
+  background-color: var(--color-bitcoin-surface);
+  border-radius: var(--radius-full);
+  color: var(--color-bitcoin-text);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calculator-state-spinner {
+    animation: none;
+  }
+}

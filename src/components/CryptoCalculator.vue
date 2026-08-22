@@ -50,17 +50,6 @@ const allocation = computed(() => {
       </p>
     </div>
 
-    <div>
-      <p v-if="isLoading">Loading exchange rates...</p>
-
-      <p v-else-if="error">{{ error }}</p>
-
-      <div v-else-if="rates">
-        <p>BTC: {{ rates.BTC }}</p>
-        <p>ETH: {{ rates.ETH }}</p>
-      </div>
-    </div>
-
     <div class="holdings-section">
       <div class="holdings-field">
         <label class="holdings-label" for="usd-holdings"> USD available to invest </label>
@@ -93,7 +82,34 @@ const allocation = computed(() => {
       </div>
     </div>
 
-    <section v-if="allocation" class="allocation-results" aria-label="Estimated purchases">
+    <section
+      v-if="isLoading"
+      class="calculator-state calculator-state--loading"
+      role="status"
+      aria-live="polite"
+    >
+      <span class="calculator-state-spinner" aria-hidden="true"></span>
+
+      <div>
+        <p class="calculator-state-title">Loading exchange rates</p>
+
+        <p class="calculator-state-message">Preparing the latest Bitcoin and Ethereum estimates.</p>
+      </div>
+    </section>
+
+    <section v-else-if="error" class="calculator-state calculator-state--error" role="alert">
+      <span class="calculator-state-icon" aria-hidden="true"> ! </span>
+
+      <div>
+        <p class="calculator-state-title">Unable to load exchange rates</p>
+
+        <p class="calculator-state-message">
+          Current Bitcoin and Ethereum estimates are unavailable. Please try again later.
+        </p>
+      </div>
+    </section>
+
+    <section v-else-if="allocation" class="allocation-results" aria-label="Estimated purchases">
       <div class="crypto-result-cards">
         <CryptoResultCard
           asset-mark="B"
