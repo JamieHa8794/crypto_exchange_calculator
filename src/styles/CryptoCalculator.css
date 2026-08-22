@@ -181,9 +181,23 @@
 }
 
 .allocation-percentages {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
   margin-left: auto;
-  color: var(--color-text-secondary);
   white-space: nowrap;
+}
+
+.allocation-percentage-btc {
+  color: var(--color-primary);
+}
+
+.allocation-percentage-separator {
+  color: var(--color-text-secondary);
+}
+
+.allocation-percentage-eth {
+  color: var(--color-secondary);
 }
 
 .allocation-rail {

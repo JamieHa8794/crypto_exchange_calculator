@@ -106,7 +106,13 @@ const allocation = computed(() => {
       <div class="allocation-summary">
         <div class="allocation-heading">
           <p class="allocation-label">Allocation</p>
-          <p class="allocation-percentages">70% BTC · 30% ETH</p>
+          <p class="allocation-percentages">
+            <span class="allocation-percentage-btc"> 70% BTC </span>
+
+            <span class="allocation-percentage-separator"> · </span>
+
+            <span class="allocation-percentage-eth"> 30% ETH </span>
+          </p>
         </div>
 
         <div class="allocation-rail" aria-hidden="true">
