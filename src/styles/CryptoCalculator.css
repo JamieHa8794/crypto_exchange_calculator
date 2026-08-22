@@ -307,8 +307,8 @@
 }
 
 .calculator-state-retry:focus-visible {
-  box-shadow: var(--focus-ring);
-  outline: none;
+  outline: 2px solid var(--color-primary-active);
+  outline-offset: 2px;
 }
 
 /* Loading state */

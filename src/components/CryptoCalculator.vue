@@ -31,6 +31,24 @@ function normalizeUsdInput(): void {
   }
 }
 
+function adjustUsdInputWithArrowKey(event: KeyboardEvent): void {
+  if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') {
+    return
+  }
+
+  const amount = usdInput.value.amount
+
+  if (amount === null) {
+    return
+  }
+
+  const adjustment = event.key === 'ArrowUp' ? 0.01 : -0.01
+  const nextAmount = Math.max(0.01, amount + adjustment)
+
+  event.preventDefault()
+  usdHoldings.value = nextAmount.toFixed(2)
+}
+
 const allocation = computed(() => {
   const amount = usdInput.value.amount
   const currentRates = rates.value
@@ -87,6 +105,7 @@ const allocation = computed(() => {
             v-bind:aria-describedby="validationMessage ? 'usd-holdings-error' : undefined"
             v-on:focus="prepareUsdInputForEditing"
             v-on:blur="normalizeUsdInput"
+            v-on:keydown="adjustUsdInputWithArrowKey"
           />
 
           <span class="holdings-currency" aria-hidden="true"> USD </span>
@@ -95,7 +114,6 @@ const allocation = computed(() => {
           v-if="validationMessage"
           id="usd-holdings-error"
           class="holdings-validation-message"
-          role="alert"
         >
           <span class="holdings-validation-icon" aria-hidden="true"> ! </span>
 
@@ -126,7 +144,6 @@ const allocation = computed(() => {
       v-if="isLoading"
       class="calculator-state calculator-state--loading"
       role="status"
-      aria-live="polite"
     >
       <span class="calculator-state-spinner" aria-hidden="true"></span>
 
