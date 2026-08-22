@@ -87,7 +87,6 @@
 
 .holdings-input[aria-invalid='true'] {
   border: 2px solid var(--color-error);
-  background-color: var(--color-error-surface);
 }
 
 .holdings-input[aria-invalid='true']:focus {
