@@ -73,7 +73,6 @@
   min-width: 0;
   height: var(--space-16);
   padding: 0 var(--space-16) 0 var(--space-4);
-  appearance: textfield;
   background-color: var(--color-surface);
   border: var(--border-width-default) solid var(--color-border);
   border-radius: var(--radius-md);
@@ -84,10 +83,50 @@
   transition: var(--transition-control);
 }
 
-.holdings-input::-webkit-inner-spin-button,
-.holdings-input::-webkit-outer-spin-button {
+/* Input validation */
+
+.holdings-input[aria-invalid='true'] {
+  border: 2px solid var(--color-error);
+  background-color: var(--color-error-surface);
+}
+
+.holdings-input[aria-invalid='true']:focus {
+  border-color: var(--color-error);
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+
+.holdings-input[aria-invalid='true'] ~ .holdings-currency {
+  color: var(--color-error);
+}
+
+.holdings-validation-message {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
   margin: 0;
-  appearance: none;
+  padding: var(--space-2) var(--space-3);
+  background-color: var(--color-error-surface);
+  border: 1px solid var(--color-error-border);
+  border-radius: var(--radius-md);
+  color: var(--color-error-text);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-body);
+}
+
+.holdings-validation-icon {
+  display: grid;
+  flex: 0 0 var(--space-5);
+  width: var(--space-5);
+  height: var(--space-5);
+  place-items: center;
+  background-color: var(--color-error);
+  border-radius: var(--radius-full);
+  color: var(--color-surface);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
 }
 
 .holdings-input::placeholder {

@@ -3,21 +3,42 @@ import { computed, ref } from 'vue'
 import CryptoResultCard from '@/components/CryptoResultCard.vue'
 
 import { useExchangeRates } from '@/composables/useExchangeRates'
-import { formatCrypto, formatUsd, isPositiveFiniteNumber } from '@/utils'
+import { formatCrypto, formatUsd, isPositiveFiniteNumber, parseUsdInput } from '@/utils'
 
 import '@/styles/CryptoCalculator.css'
 
 const { rates, isLoading, error } = useExchangeRates()
 
-const usdHoldings = ref<number | ''>('')
+const usdHoldings = ref('')
+
+const usdInput = computed(() => parseUsdInput(usdHoldings.value))
+
+const validationMessage = computed(() => usdInput.value.message)
+
+function prepareUsdInputForEditing(): void {
+  if (usdInput.value.amount === null) {
+    return
+  }
+
+  usdHoldings.value = usdHoldings.value.replace(/,/g, '')
+}
+
+function normalizeUsdInput(): void {
+  const normalizedValue = usdInput.value.normalizedValue
+
+  if (normalizedValue !== null) {
+    usdHoldings.value = normalizedValue
+  }
+}
 
 const allocation = computed(() => {
-  const amount = usdHoldings.value
+  const amount = usdInput.value.amount
   const currentRates = rates.value
 
   if (!currentRates) {
     return null
   }
+
   if (
     !isPositiveFiniteNumber(amount) ||
     !isPositiveFiniteNumber(currentRates.BTC) ||
@@ -59,14 +80,27 @@ const allocation = computed(() => {
             id="usd-holdings"
             class="holdings-input"
             v-model="usdHoldings"
-            type="number"
-            min="0"
-            step="0.01"
+            type="text"
+            inputmode="decimal"
             placeholder="0.00"
+            v-bind:aria-invalid="validationMessage ? 'true' : undefined"
+            v-bind:aria-describedby="validationMessage ? 'usd-holdings-error' : undefined"
+            v-on:focus="prepareUsdInputForEditing"
+            v-on:blur="normalizeUsdInput"
           />
 
           <span class="holdings-currency" aria-hidden="true"> USD </span>
         </div>
+        <p
+          v-if="validationMessage"
+          id="usd-holdings-error"
+          class="holdings-validation-message"
+          role="alert"
+        >
+          <span class="holdings-validation-icon" aria-hidden="true"> ! </span>
+
+          {{ validationMessage }}
+        </p>
       </div>
 
       <div class="allocation-summary">
