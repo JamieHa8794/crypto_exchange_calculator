@@ -93,12 +93,10 @@ const allocation = computed(() => {
       </div>
     </div>
 
-    <section v-if="allocation" aria-labelledby="estimated-purchases-heading">
-      <h2 id="estimated-purchases-heading">Estimated purchases</h2>
-      <p>Estimates based on current Coinbase exchange rates.</p>
-
+    <section v-if="allocation" class="allocation-results" aria-label="Estimated purchases">
       <div class="crypto-result-cards">
         <CryptoResultCard
+          asset-mark="B"
           asset-name="Bitcoin"
           symbol="BTC"
           v-bind:allocation-percentage="70"
@@ -108,6 +106,7 @@ const allocation = computed(() => {
         />
 
         <CryptoResultCard
+          asset-mark="E"
           asset-name="Ethereum"
           symbol="ETH"
           v-bind:allocation-percentage="30"
@@ -116,6 +115,10 @@ const allocation = computed(() => {
           variant="eth"
         />
       </div>
+
+      <p class="allocation-disclaimer">
+        Estimated quantities use the current exchange rates and may change.
+      </p>
     </section>
   </div>
 </template>
